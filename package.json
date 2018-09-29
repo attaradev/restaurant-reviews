@@ -1,0 +1,14 @@
+{
+  "name": "restaurant-reviews-3",
+  "version": "0.0.1",
+  "description": "Final stage of the restaurant reviews project for the Mobile Web Specialist Nanodegree on Udacity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mike Perry Yeboah Attara",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  }
+}
