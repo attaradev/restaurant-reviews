@@ -2,24 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- meta viewport tag to control the width and scaling of the browser's viewport. -->
-  <!-- width=device-width to match the screen's width in device-independent pixels. -->
-  <!-- initial-scale=1 to establish a 1:1 relationship between CSS pixels and device-independent pixels. -->
-  <!-- Ensure page is accessible by not disabling user scaling. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/manifest/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/manifest/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/manifest/favicon-16x16.png">
-  <link rel="manifest" href="/reviews.webmanifest">
-  <link rel="mask-icon" href="/manifest/safari-pinned-tab.svg" color="#5bbad5">
-  <meta name="msapplication-TileColor" content="#002984">
+  <link rel="manifest" href="manifest.webmanifest">
+  <!-- PWACompat for other browsers -->
+  <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js"
+    integrity="sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA"
+    crossorigin="anonymous"></script>
   <meta name="theme-color" content="#002984">
   <!-- CSS -->
   <!-- Normalize.css corrects bugs and common browser inconsistencies. -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
   <title>Restaurant Reviews</title>
 </head>
