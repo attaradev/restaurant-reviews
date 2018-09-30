@@ -6,16 +6,16 @@ const pump = require('pump');
 const imagemin = require('gulp-imagemin');
 
 gulp.task('html', () => {
-    gulp.src('./src/*.html')
-    .pipe(gulp.dest('./public'));
+    gulp.src('/src/*.html')
+    .pipe(gulp.dest('/public'));
 });
 
 gulp.task('styles', () => {
-    gulp.src('./src/scss/style.scss')
+    gulp.src('/src/scss/style.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/css/style.css'));
+    .pipe(gulp.dest('/public/css/style.css'));
 });
 
 gulp.task('scripts', cb => {
