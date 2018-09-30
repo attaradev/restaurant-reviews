@@ -74,7 +74,7 @@ video {
   letter-spacing: 0.275em; }
 
 /* tap targets */
-.nav a, button {
+.nav a {
   min-width: 50px;
   min-height: 50px; }
 
@@ -160,10 +160,11 @@ video {
   /* tap targets */
   min-width: 50px;
   min-height: 52px;
-  padding-left: 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: row;
-  align-items: center; }
+  align-items: center;
+  justify-content: space-between; }
 
 .card-actions-link {
   color: #000000;
@@ -172,6 +173,19 @@ video {
 
 .card-actions-link:hover, .card-actions-link:focus {
   color: #4d09cc; }
+
+.card-actions-button {
+  width: 25px;
+  height: 25px;
+  top: 4px;
+  right: 20px;
+  background-color: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: transparent;
+  font-size: 2px;
+  cursor: pointer; }
 
 /* -------------------------------------------------------------------------- */
 .breadcrumbs {
