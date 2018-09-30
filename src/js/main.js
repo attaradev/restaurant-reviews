@@ -6,17 +6,17 @@ var markers = []
 
 
 // REGISTER SERVICE WORKER
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log(`Service Worker registered! Scope: ${registration.scope}`);
-      })
-      .catch(error => {
-        console.log(`Service Worker registration failed: ${error}`);
-      });
-  });
-}     
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/sw.js')
+//       .then(registration => {
+//         console.log(`Service Worker registered! Scope: ${registration.scope}`);
+//       })
+//       .catch(error => {
+//         console.log(`Service Worker registration failed: ${error}`);
+//       });
+//   });
+// }     
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -171,8 +171,6 @@ createRestaurantHTML = (restaurant) => {
   // Create a div with class card-primary that contains h2, h3.
   const divCardPrimary = document.createElement('div');
   divCardPrimary.className = 'card-primary';
-  const favIcon = document.createElement('i');
-  restaurant.isFavorite ? favIcon.className = 'fas fa-star' : favIcon.className = 'far fa-star';
   const name = document.createElement('h2');
   name.className = 'card-title';
   name.innerHTML = restaurant.name;
