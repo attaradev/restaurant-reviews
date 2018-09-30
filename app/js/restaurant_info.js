@@ -125,7 +125,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   // Add alternative text
-  image.alt = restaurant.alternative_text;
+  image.alt = `photo of ${restaurant.name}`;
   image.tabIndex = '0';
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -170,6 +170,13 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   title.className = 'reviews-title';
   title.innerHTML = 'Reviews';
   container.appendChild(title);
+
+  // Add review button
+  const addReview = document.createElement('button');
+  addReview.innerHTML = 'Add review';
+  addReview.type = 'button';
+  addReview.id = 'add-review';
+  addReview.onclick = event => openReviewModal;
 
   // TODO: test with no reviews.
   if (!reviews) {
@@ -261,4 +268,9 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+};
+
+// Handle Modal
+const openReviewModal = () => {
+
+};
