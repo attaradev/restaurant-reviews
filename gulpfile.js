@@ -1,65 +1,31 @@
 const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass');
-const sourcemaps = require('gulp-sourcemaps');
-const uglify = require('uglify-es');
-const pump = require('pump');
-const imagemin = require('gulp-imagemin');
-const del = require('del');
-const composer = require('gulp-uglify/composer');
+const reload = browserSync.reload;
 
-const minify = composer(uglify, console);
+const src = {
+    scss: 'app/scss/*.scss',
+    css:  'app/css',
+    html: 'app/*.html'
+};
 
-gulp.task('html', () => {
-    gulp.src(['src/*.html'])
-    .pipe(gulp.dest('public/'));
-});
+// Static Server + watching scss/html files
+gulp.task('serve', ['sass'], function() {
 
-gulp.task('styles', () => {
-    gulp.src('src/scss/style.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('public/css/'));
-});
-
-gulp.task('scripts', cb => {
-    pump([
-            gulp.src(['src/js/*.js']),
-            sourcemaps.init(),
-            minify(),
-            sourcemaps.write(),
-            gulp.dest('public/js')
-        ],
-        cb
-    );
-});
-
-gulp.task('images', () => {
-    gulp.src(['app/**/*.jpg', 'app/**/*.png', 'app/**/*.svg'])
-    .pipe(imagemin([
-        imagemin.jpegtran({progressive: true}),
-        imagemin.optipng({optimizationLevel: 5}),
-        imagemin.svgo({
-            plugins: [
-                {removeViewBox: true},
-                {cleanupIDs: false}
-            ]
-        })
-    ]))
-    .pipe(gulp.dest('public/'))
-});
-
-gulp.task('manifest', () => {
-    gulp.src(['app/**/*.ico', 'app/**/*.webmanifest'])
-    .pipe(gulp.dest('public'))
-});
-
-gulp.task('clean', () => {
-    del(['public/**', '!public'])
-    .then(paths => {
-        console.log('Deleted files and folders:\n', paths.join('\n'));
+    browserSync.init({
+        server: "./app"
     });
+
+    gulp.watch(src.scss, ['sass']);
+    gulp.watch(src.html).on('change', reload);
 });
 
-gulp.task('build', ['html', 'styles', 'images', 'manifest', 'scripts']);
-gulp.task('default', ['clean', 'build', 'scripts']);
+// Compile sass into CSS
+gulp.task('sass', function() {
+    return gulp.src(src.scss)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest(src.css))
+        .pipe(reload({stream: true}));
+});
+
+gulp.task('default', ['serve']);
