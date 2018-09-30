@@ -200,10 +200,30 @@ createRestaurantHTML = (restaurant) => {
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   divCardActions.append(more);
+
+  // Create favorite icon
+  const isFavorite = restaurant['is_favorite'];
+  const favIcon = createElement('button');
+  favIcon.className = 'card-actions-button';
+  favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
+  favIcon.innerHTML = isFavorite ? `${restaurant.name} is a favorite` : `${restaurant.name} is not a favorite`;
+  favIcon.id = `favorite-icon-${restaurant.id}`;
+  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
+  divCardActions.append(favIcon);
   li.append(divCardActions);
 
   return li
 }
+
+const handleFavoriteClick = (id, state) => {
+  // Update properties of the restaurant data object
+  const favorite = document.getElementById(`favorite-icon-${id}`);
+  const restaurant = self.restaurants.filter(r => r.id === id)[0];
+  if (!restaurant) return;
+  restaurant["is_favorite"] = state;
+  favorite.onclick = event => handleFavoriteClick(restaurant.id, !restaurant["is_favorite"]);
+  DBHelper.handleFavoriteClick(id, state);
+};
 
 /**
  * Add markers for current restaurants to the map.
