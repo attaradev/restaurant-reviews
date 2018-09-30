@@ -33,10 +33,16 @@ gulp.task('scripts', cb => {
 });
 
 gulp.task('images', () => {
-    gulp.src(['app/**/*.jpg', 'app/**/*.png'])
+    gulp.src(['app/**/*.jpg', 'app/**/*.png', 'app/**/*.svg'])
     .pipe(imagemin([
         imagemin.jpegtran({progressive: true}),
-        imagemin.optipng({optimizationLevel: 5})
+        imagemin.optipng({optimizationLevel: 5}),
+        imagemin.svgo({
+            plugins: [
+                {removeViewBox: true},
+                {cleanupIDs: false}
+            ]
+        })
     ]))
     .pipe(gulp.dest('public/'))
 });
