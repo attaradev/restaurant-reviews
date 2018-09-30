@@ -25,7 +25,9 @@ gulp.task('styles', () => {
 gulp.task('scripts', cb => {
     pump([
             gulp.src(['src/js/*.js']),
+            sourcemaps.init(),
             minify(),
+            sourcemaps.write(),
             gulp.dest('public/js')
         ],
         cb

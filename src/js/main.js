@@ -203,7 +203,7 @@ createRestaurantHTML = (restaurant) => {
 
   // Create favorite icon
   const isFavorite = restaurant['is_favorite'];
-  const favIcon = createElement('button');
+  const favIcon = document.createElement('button');
   favIcon.className = 'card-actions-button';
   favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
   favIcon.innerHTML = isFavorite ? `${restaurant.name} is a favorite` : `${restaurant.name} is not a favorite`;
