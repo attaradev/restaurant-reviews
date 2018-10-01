@@ -279,14 +279,30 @@ video {
   font-style: normal;
   color: rgba(0, 0, 0, 0.54); }
 
+#restaurant-name.card-title {
+  display: inline-block; }
+
+#add-review {
+  background-color: #3f51b5;
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: 0.75rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  max-width: 50%; }
+
 /* -------------------------------------------------------------------------- */
 .reviews-title {
-  width: 100%;
+  max-width: 50%;
   margin: 0.75rem;
   padding-left: 0.25rem;
   font-weight: 400;
   font-size: 1.5rem;
-  line-height: 2rem; }
+  line-height: 2rem;
+  display: inline-block; }
 
 .review-cards {
   margin: 0;

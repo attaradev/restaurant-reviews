@@ -118,6 +118,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
   name.tabIndex = '0';
 
+  // Create favorite icon
+  const isFavorite = restaurant['is_favorite'];
+  const favIcon = document.createElement('button');
+  favIcon.className = 'card-actions-button';
+  favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
+  favIcon.innerHTML = isFavorite ? `${restaurant.name} is a favorite` : `${restaurant.name} is not a favorite`;
+  favIcon.id = `favorite-icon-${restaurant.id}`;
+  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
+  favIcon.tabIndex = '1';
+  document.getElementById('restaurant-info')
+  .insertBefore(favIcon, document.getElementById('restaurant-address'));
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -177,6 +189,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   addReview.type = 'button';
   addReview.id = 'add-review';
   addReview.onclick = event => openReviewModal;
+  container.insertAdjacentElement('beforeend', addReview)
 
   // TODO: test with no reviews.
   if (!reviews) {
