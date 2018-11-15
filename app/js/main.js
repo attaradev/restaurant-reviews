@@ -24,7 +24,7 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
-  fetchCuisines(); 
+  fetchCuisines();
 });
 
 /**
@@ -87,10 +87,10 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  */
 initMap = () => {
   self.newMap = L.map('map', {
-        center: [40.722216, -73.987501],
-        zoom: 16,
-        scrollWheelZoom: false
-      });
+    center: [40.722216, -73.987501],
+    zoom: 16,
+    scrollWheelZoom: false
+  });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
     mapboxToken: 'pk.eyJ1IjoibWlrZXB5YXR0YXJhIiwiYSI6ImNqa3pqdHV3eTBwNTQza3A0cWU1aHJ1MmEifQ.yOYWeha2HA_1hf0tsilW0Q',
     maxZoom: 18,
@@ -233,11 +233,11 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
     marker.on("click", onClick);
+
     function onClick() {
       window.location.href = marker.options.url;
     }
     self.markers.push(marker);
   });
 
-} 
-
+}
