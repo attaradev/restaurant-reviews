@@ -8,8 +8,12 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get RESTAURANTS_URL() {
-    const port = 1337
-    return `http://localhost:${port}/restaurants/`;
+    return `${this.DATABASE_URL}/restaurants/`;
+  }
+
+  static get DATABASE_URL() {
+    const PORT = 1337
+    return `http://localhost:${PORT}`
   }
 
   /**
@@ -17,7 +21,7 @@ class DBHelper {
    */
   static fetchRestaurants(callback) {
     // Using fetch API
-    fetch(DBHelper.RESTAURANTS_URL)
+    fetch(this.RESTAURANTS_URL)
       .then(response => response.json())
       .then(response => {
         const restaurants = response;
@@ -33,7 +37,7 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    this.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -52,7 +56,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    this.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -68,7 +72,7 @@ class DBHelper {
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    this.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -84,7 +88,7 @@ class DBHelper {
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    this.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -105,7 +109,7 @@ class DBHelper {
    */
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    this.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -123,7 +127,7 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
+    this.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -162,9 +166,25 @@ class DBHelper {
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng], {
       title: restaurant.name,
       alt: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant)
+      url: this.urlForRestaurant(restaurant)
     })
     marker.addTo(newMap);
     return marker;
+  }
+
+  /**
+   * Reviews
+   */
+  static fetchReviewsByRestaurantId(id) {
+    return fetch(`${this.DATABASE_URL}/reviews/?restaurant_id=${id}`)
+      .then(response => response.json())
+      .then(reviews => {
+        this.dbPromise()
+          .then(db => {
+            if (!db) return;
+
+            let tx = db;
+          })
+      })
   }
 }
