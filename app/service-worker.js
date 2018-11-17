@@ -1,5 +1,4 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js');
-importScripts('https://cdn.jsdelivr.net/npm/idb@2.1.3/lib/idb.min.js');
 
 workbox.precaching.precacheAndRoute([
   'i/',
