@@ -10,7 +10,7 @@ const src = {
 };
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['sass'], function () {
+gulp.task('serve', ['sass'], () => {
 
   browserSync.init({
     server: "./app"
@@ -21,7 +21,7 @@ gulp.task('serve', ['sass'], function () {
 });
 
 // Compile sass into CSS
-gulp.task('sass', function () {
+gulp.task('sass', () => {
   return gulp.src(src.scss)
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(src.css))
