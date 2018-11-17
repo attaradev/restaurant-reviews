@@ -10,9 +10,7 @@ textarea {
 
 input:focus,
 textarea:focus {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  outline: none; }
+  border-radius: 5px; }
 
 input {
   height: 2.5em;
@@ -22,7 +20,6 @@ input {
 
 textarea {
   padding: 10px;
-  margin: 10px 0 0 -10px;
   min-height: 12rem;
   resize: none;
   overflow: auto; }
@@ -30,6 +27,12 @@ textarea {
 label,
 select {
   display: inline-block; }
+
+select {
+  padding: 10px; }
+
+option {
+  padding: 5px; }
 
 .modal {
   display: none;

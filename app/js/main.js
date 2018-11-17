@@ -88,11 +88,11 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 initMap = () => {
   self.newMap = L.map('map', {
     center: [40.722216, -73.987501],
-    zoom: 16,
+    zoom: 12,
     scrollWheelZoom: false
   });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: 'pk.eyJ1IjoibWlrZXB5YXR0YXJhIiwiYSI6ImNqa3pqdHV3eTBwNTQza3A0cWU1aHJ1MmEifQ.yOYWeha2HA_1hf0tsilW0Q',
+    mapboxToken: 'pk.eyJ1IjoibWlrZXB5YXR0YXJhIiwiYSI6ImNqb2x0em14aDBycHEza3FhdmV0aHR0NnEifQ.HIuVE6z3eKDOkeCS903CGQ',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
