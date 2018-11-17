@@ -88,19 +88,27 @@
         <span id="closeBtn" class="close-btn">&times;</span>
         <h2 class="modal-title">Add review</h2>
       </header>
-      <article class="modal-body">
-        <p class="modal-text">Hello, My Sample Modal...</p>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi enim placeat atque itaque quasi beatae nulla
-          quo veritatis modi voluptate, illo neque architecto debitis blanditiis quis inventore? Consequatur, molestiae
-          cupiditate. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi enim placeat atque itaque quasi
-          beatae nulla quo veritatis modi voluptate, illo neque architecto debitis blanditiis quis inventore?
-          Consequatur, molestiae cupiditate. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi enim
-          placeat atque itaque quasi beatae nulla quo veritatis modi voluptate, illo neque architecto debitis
-          blanditiis quis inventore? Consequatur, molestiae cupiditate.</p>
-      </article>
-      <footer class="modal-footer">
-        <h3>Modal Footer</h3>
-      </footer>
+      <form action="">
+        <div class="input-group">
+          <label for="review-author">Your name:</label>
+          <input type="text" name="review-author" id="name" required>
+        </div>
+        <div class="input-group">
+          <label for="review-rating">Your rating:</label>
+          <select name="review-rating" id="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="review-comment">Your comment:</label>
+          <textarea name="review-comment" id="comment" required></textarea>
+        </div>
+        <button id="addReview" type="button">Add review</button>
+      </form>
     </div>
   </div>
 

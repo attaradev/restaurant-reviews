@@ -1,10 +1,35 @@
-.btn {
-  padding: 1em 2em;
-  text-transform: uppercase;
-  border: 0;
-  max-width: 12rem; }
-  .btn:hover {
-    background-color: aliceblue; }
+button,
+input,
+textarea {
+  box-sizing: border-box;
+  display: block; }
+
+input,
+textarea {
+  width: 100%; }
+
+input:focus,
+textarea:focus {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  outline: none; }
+
+input {
+  height: 2.5em;
+  /* for IE */
+  vertical-align: middle;
+  /* This is optional but it makes legacy IEs look better */ }
+
+textarea {
+  padding: 10px;
+  margin: 10px 0 0 -10px;
+  min-height: 12rem;
+  resize: none;
+  overflow: auto; }
+
+label,
+select {
+  display: inline-block; }
 
 .modal {
   display: none;
@@ -17,21 +42,24 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4); }
   .modal-content {
+    display: flex;
+    flex-direction: column;
     background-color: #f4f4f4;
     max-width: 550px;
     margin: 10% auto;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
     backface-visibility: hidden;
-    animation-name: modal-open;
-    animation-duration: 0.5s; }
-  .modal-header {
-    background-color: lightgoldenrodyellow;
-    padding: 10px 20px; }
-  .modal-body {
-    padding: 20px; }
-  .modal-footer {
-    padding: 5px 20px;
-    background-color: rgba(250, 250, 210, 0.5); }
+    animation: modal-open .5s ease-in;
+    padding: 1.75rem; }
+  .modal .input-group {
+    margin-bottom: 1rem; }
+  .modal #addReview {
+    margin-left: 0;
+    min-width: 10rem;
+    letter-spacing: .0125rem; }
+  .modal select {
+    min-height: 35px;
+    min-width: 35px; }
 
 .close-btn {
   color: #ccc;
