@@ -22,7 +22,7 @@ gulp.task('serve', ['sass'], () => {
 
 // Compile sass into CSS
 gulp.task('sass', () => {
-  return gulp.src(src.scss)
+  return gulp.src(src.sass)
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(src.css))
     .pipe(reload({
