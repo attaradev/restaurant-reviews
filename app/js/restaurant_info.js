@@ -115,18 +115,21 @@ fetchRestaurantFromURL = (callback) => {
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
-  name.innerHTML = restaurant.name;
+  name.textContent = restaurant.name;
   name.tabIndex = '0';
 
   // Create favorite icon
-  const isFavorite = restaurant['is_favorite'];
   const favIcon = document.createElement('button');
+  const isFavorite = restaurant['is_favorite'];
   favIcon.className = 'card-actions-button';
   favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
-  favIcon.innerHTML = isFavorite ? `${restaurant.name} is a favorite` : `${restaurant.name} is not a favorite`;
+  !isFavorite
+    ?
+    favIcon.setAttribute('arial-label', `Set ${restaurant.name} as a favorite restaurant`) :
+    favIcon.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`);
   favIcon.id = `favorite-icon-${restaurant.id}`;
-  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
   favIcon.tabIndex = '1';
+  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
   document.getElementById('restaurant-info')
     .insertBefore(favIcon, document.getElementById('restaurant-address'));
 
@@ -178,27 +181,28 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  const ul = document.getElementById('reviews-list');
   const title = document.createElement('h3');
   title.className = 'reviews-title';
   title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  container.insertBefore(title, ul);
 
   // Add review button
   const addReview = document.createElement('button');
-  addReview.innerHTML = 'Add review';
+  addReview.textContent = 'Add review';
   addReview.type = 'button';
   addReview.id = 'add-review';
   addReview.onclick = event => openReviewModal;
-  container.insertAdjacentElement('beforeend', addReview)
+  container.insertBefore(addReview, ul);
 
   // TODO: test with no reviews.
   if (!reviews) {
     const noReviews = document.createElement('p');
-    noReviews.innerHTML = 'No reviews yet!';
-    container.appendChild(noReviews);
+    noReviews.textContent = 'No reviews yet!';
+    ul.append(noReviews);
     return;
   }
-  const ul = document.getElementById('reviews-list');
+
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });

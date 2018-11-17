@@ -175,6 +175,20 @@ createRestaurantHTML = (restaurant) => {
   name.className = 'card-title';
   name.innerHTML = restaurant.name;
   divCardPrimary.append(name);
+
+  // Create favorite icon
+  const favIcon = document.createElement('button');
+  const isFavorite = restaurant['is_favorite'];
+  favIcon.className = 'card-actions-button';
+  favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
+  !isFavorite
+    ?
+    favIcon.setAttribute('arial-label', `Set ${restaurant.name} as a favorite restaurant`) :
+    favIcon.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`);
+  favIcon.id = `favorite-icon-${restaurant.id}`;
+  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
+  divCardPrimary.append(favIcon);
+
   const neighborhood = document.createElement('h3');
   neighborhood.className = 'card-subtitle';
   neighborhood.innerHTML = restaurant.neighborhood;
@@ -201,15 +215,6 @@ createRestaurantHTML = (restaurant) => {
   more.href = DBHelper.urlForRestaurant(restaurant);
   divCardActions.append(more);
 
-  // Create favorite icon
-  const isFavorite = restaurant['is_favorite'];
-  const favIcon = document.createElement('button');
-  favIcon.className = 'card-actions-button';
-  favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
-  favIcon.innerHTML = isFavorite ? `${restaurant.name} is a favorite` : `${restaurant.name} is not a favorite`;
-  favIcon.id = `favorite-icon-${restaurant.id}`;
-  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
-  divCardActions.append(favIcon);
   li.append(divCardActions);
 
   return li

@@ -129,8 +129,6 @@ video {
     align-items: center;
     background-color: #3f51b5; }
     .restaurant-card-cuisine-content {
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
       text-transform: uppercase;
       color: #ffffff; }
   .restaurant-card-opening-hours {
@@ -151,7 +149,8 @@ video {
   font-size: 1.25rem;
   line-height: 2rem;
   font-weight: 500;
-  letter-spacing: 0.0125em; }
+  letter-spacing: 0.0125em;
+  text-transform: uppercase; }
 
 .card-subtitle {
   margin: 0;
@@ -163,14 +162,14 @@ video {
 
 .card-secondary {
   padding: 0 1rem 8px 1rem; }
-
-.card-secondary-content {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 400;
-  letter-spacing: 0.01786em;
-  font-style: normal;
-  color: rgba(0, 0, 0, 0.54); }
+  .card-secondary-content {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.01786em;
+    font-style: normal;
+    color: rgba(0, 0, 0, 0.55);
+    margin-top: 1.25rem; }
 
 .card-actions {
   /* tap targets */
@@ -188,14 +187,13 @@ video {
     .card-actions-link:hover, .card-actions-link:focus {
       color: #4d09cc; }
   .card-actions-button {
+    display: block;
     width: 25px;
     height: 25px;
     background-color: inherit;
     border: none;
-    margin: 0;
+    margin: 10px 0;
     padding: 0;
-    color: transparent;
-    font-size: 2px;
     cursor: pointer; }
 
 /* -------------------------------------------------------------------------- */
@@ -216,21 +214,19 @@ video {
   list-style-type: none;
   font-weight: 300;
   color: #ffffff; }
-
-.breadcrumb + .breadcrumb:before {
-  padding: 0.5rem;
-  content: "/"; }
-
-.breadcrumb-link {
-  min-width: 3rem;
-  min-height: 3rem;
-  /* nice tap targets */
-  font-weight: 300;
-  text-decoration: none;
-  /* color: #000000; */
-  color: #ffffff; }
-  .breadcrumb-link:hover, .breadcrumb-link:focus {
-    color: #4903b9; }
+  .breadcrumb + .breadcrumb:before {
+    padding: 0.5rem;
+    content: "/"; }
+  .breadcrumb-link {
+    min-width: 3rem;
+    min-height: 3rem;
+    /* nice tap targets */
+    font-weight: 300;
+    text-decoration: none;
+    /* color: #000000; */
+    color: #ffffff; }
+    .breadcrumb-link:hover, .breadcrumb-link:focus {
+      color: #4903b9; }
 
 /* -------------------------------------------------------------------------- */
 .restaurant-details {
@@ -273,8 +269,7 @@ video {
   color: white;
   padding: 10px 32px;
   text-align: center;
-  margin-left: auto;
-  margin-right: 0.75rem;
+  margin-left: 1rem;
   text-transform: uppercase;
   text-decoration: none;
   max-width: 50%; }
@@ -287,7 +282,8 @@ video {
   font-weight: 400;
   font-size: 1.5rem;
   line-height: 2rem;
-  display: inline-block; }
+  text-transform: uppercase;
+  display: block; }
 
 .review-cards {
   margin: 0;
