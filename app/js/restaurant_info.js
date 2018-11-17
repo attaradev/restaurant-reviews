@@ -191,8 +191,9 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const addReview = document.createElement('button');
   addReview.textContent = 'Add review';
   addReview.type = 'button';
-  addReview.id = 'add-review';
-  addReview.onclick = event => openReviewModal;
+  addReview.setAttribute('class', 'btn');
+  addReview.setAttribute('id', 'add-review');
+  addReview.onclick = event => openReviewModal();
   container.insertBefore(addReview, ul);
 
   // TODO: test with no reviews.
@@ -240,7 +241,7 @@ createReviewHTML = (review) => {
   divCardActions.className = 'review-card-rating';
   const rating = document.createElement('p');
   rating.className = 'review-card-rating-content';
-  rating.innerHTML = `Rating: ${review.rating}`;
+  rating.textContent = `Rating: ${review.rating}`;
   divCardActions.append(rating);
   li.appendChild(divCardActions);
 
@@ -250,7 +251,7 @@ createReviewHTML = (review) => {
   // Review text.
   const comments = document.createElement('p');
   comments.className = 'card-secondary-content';
-  comments.innerHTML = review.comments;
+  comments.textContent = review.comments;
   divCardSecondary.appendChild(comments);
   li.appendChild(divCardSecondary);
 
@@ -288,6 +289,26 @@ getParameterByName = (name, url) => {
 };
 
 // Handle Modal
-const openReviewModal = () => {
+const modal = document.getElementById('reviewModal');
+// const modalBtn = document.getElementById('add-review');
+const closeModalBtn = document.getElementById('closeBtn');
+// const modalContent = document.querySelector('.modal-content');
 
-};
+// modalBtn.addEventListener('click', openReviewModal);
+closeModalBtn.addEventListener('click', closeModal);
+window.addEventListener('click', close);
+
+function openReviewModal() {
+  modal.style.display = 'block';
+}
+
+function closeModal() {
+  // modalContent.style.animationName = 'modal-close'
+  modal.style.display = 'none';
+}
+
+function close(ev) {
+  if (ev.target == modal) {
+    closeModal();
+  }
+}
