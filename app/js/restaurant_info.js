@@ -194,7 +194,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   addReview.setAttribute('class', 'btn');
   addReview.setAttribute('id', 'add-review');
   addReview.onclick = event => openReviewModal();
-  container.insertBefore(addReview, ul);
+  container.appendChild(addReview);
 
   // TODO: test with no reviews.
   if (!reviews) {
