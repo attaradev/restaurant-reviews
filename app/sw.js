@@ -8,14 +8,43 @@ const RESOURCES_TO_CACHE = [
   '/js/idb.js',
   '/js/main.js',
   '/js/dbhelper.js',
-  '/img/1.jpg',
-  '/img/2.jpg',
-  '/img/3.jpg',
-  '/img/4.jpg',
-  '/img/5.jpg',
-  '/img/6.jpg',
-  '/img/7.jpg',
-  '/img/8.jpg',
-  '/img/9.jpg',
-  '/img/10.jpg',
 ];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+    .then((cache) => {
+      return cache.addAll(RESOURCES_TO_CACHE);
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  const requestURL = new URL(event.request.url);
+
+  event.respondWith(
+    caches.open(CACHE_NAME)
+    .then((cache) => {
+      return cache.match(event.request)
+        .then((response) => {
+          let fetchPromise = fetch(event.request)
+            .then((networkResponse) => {
+              cache.put(event.request, networkResponse.clone());
+              return networkResponse;
+            })
+          return response || fetchPromise;
+        })
+    })
+  );
+});
+
+self.addEventListener('sync', (event) => {
+  if (event.id == 'add-review') {
+    event.waitUntil(
+      caches.open('mygame-dynamic')
+      .then((cache) => {
+        return cache.add('/leaderboard.json');
+      })
+    );
+  }
+});

@@ -161,11 +161,35 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   li.className = 'restaurant-card';
 
+  // LAZY LOADING IMAGES
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  // Add alternative text.
-  image.setAttribute('alt', `photo of ${restaurant.name}`);
+  image.alt = `image of ${restaurant.name} restaurant`;
+  const config = {
+    threshold: 0.1
+  };
+
+  let observer;
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver(onChange, config);
+    observer.observe(image);
+  } else {
+    console.log('Intersection Observers not supported', 'color: red');
+    loadImage(image);
+  }
+  const loadImage = image => {
+    image.className = 'restaurant-img';
+    image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  }
+
+  function onChange(changes, observer) {
+    changes.forEach(change => {
+      if (change.intersectionRatio > 0) {
+        loadImage(change.target);
+        observer.unobserve(change.target);
+      }
+    });
+  }
+
   li.append(image);
 
   // Create a div with class card-primary that contains h2, h3.
@@ -186,7 +210,11 @@ createRestaurantHTML = (restaurant) => {
     favIcon.setAttribute('arial-label', `Set ${restaurant.name} as a favorite restaurant`) :
     favIcon.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`);
   favIcon.id = `favorite-icon-${restaurant.id}`;
-  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
+  favIcon.onclick = event => {
+    const isFavNow = !restaurant.is_favorite;
+    DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
+    restaurant.is_favorite = !restaurant.is_favorite;
+  };
   divCardPrimary.append(favIcon);
 
   const neighborhood = document.createElement('h3');
