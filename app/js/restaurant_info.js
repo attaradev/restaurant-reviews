@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Initialize leaflet map
  */
-const initMap = () => {
+initMap = () => {
   fetchRestaurantFromURL()
     .then((restaurant) => {
       self.newMap = L.map('map', {
@@ -36,7 +36,7 @@ const initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-const fetchRestaurantFromURL = () => {
+fetchRestaurantFromURL = () => {
   if (self.restaurant) { // restaurant already fetched!
     return Promise.resolve(self.restaurant);
   }
@@ -59,7 +59,7 @@ const fetchRestaurantFromURL = () => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-const fillRestaurantHTML = (restaurant = self.restaurant) => {
+fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
@@ -84,7 +84,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-const fetchRestaurantFromURL = () => {
+fetchRestaurantFromURL = () => {
   if (self.restaurant) { // restaurant already fetched!
     return Promise.resolve(self.restaurant);
   }
@@ -107,7 +107,7 @@ const fetchRestaurantFromURL = () => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-const fillRestaurantHTML = (restaurant = self.restaurant) => {
+fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.textContent = restaurant.name;
   name.tabIndex = '0';
@@ -153,7 +153,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
@@ -175,7 +175,7 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const ul = document.getElementById('reviews-list');
   const title = document.createElement('h3');
@@ -189,7 +189,7 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   addReview.setAttribute('type', 'button');
   addReview.setAttribute('class', 'btn');
   addReview.setAttribute('id', 'add-review');
-  addReview.onclick = event => openReviewModal();
+  addReview.onclick = (event) => openModal();
   container.appendChild(addReview);
 
   // TODO: test with no reviews.
@@ -213,7 +213,7 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
  */
 
-const createReviewHTML = (review) => {
+createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.className = 'review-card';
 
@@ -257,7 +257,7 @@ const createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-const fillBreadcrumb = (restaurant = self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.className = 'breadcrumb';
@@ -272,7 +272,7 @@ const fillBreadcrumb = (restaurant = self.restaurant) => {
 /**
  * Get a parameter by name from page URL.
  */
-const getParameterByName = (name, url) => {
+getParameterByName = (name, url) => {
   if (!url)
     url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -285,8 +285,10 @@ const getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
-
-const addReview = (event) => {
+/**
+ * Add review.
+ */
+addReview = (event) => {
   event.preventDefault();
 
   const restaurantId = restaurant.id;
@@ -304,25 +306,26 @@ const addReview = (event) => {
   }
 }
 
-// HANDLE MODAL
+/**
+ * Handle modal actions.
+ */
 const modal = document.getElementById('reviewModal');
 // const modalBtn = document.getElementById('add-review');
 const closeModalBtn = document.getElementById('closeBtn');
-// const modalContent = document.querySelector('.modal-content');
 
-// modalBtn.addEventListener('click', openReviewModal);
+// modalBtn.addEventListener('click', openModal);
 closeModalBtn.addEventListener('click', closeModal);
 window.addEventListener('click', close);
 
-const openReviewModal = () => {
+function openModal() {
   modal.style.display = 'block';
 }
 
-const closeModal = () => {
+function closeModal() {
   modal.style.display = 'none';
 }
 
-const close = (ev) => {
+function close(ev) {
   if (ev.target == modal) {
     closeModal();
   }

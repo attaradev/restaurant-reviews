@@ -10,6 +10,7 @@ const resources = [
 ];
 
 self.addEventListener('install', event => {
+  console.log('[SERVICE WORKER] Installing service worker');
   event.waitUntil(
     caches.open(cacheName)
     .then(cache => {
@@ -34,6 +35,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
+  console.log('[SERVICE WORKER] responding to: ', event.request);
   const storageUrl = event.request.url.split(/[?#]/)[0];
   if (event.request.method.toLowerCase() === 'get') {
     event.respondWith(
@@ -52,5 +54,4 @@ self.addEventListener('fetch', event => {
       .catch(err => console.log(err))
     );
   }
-
 });

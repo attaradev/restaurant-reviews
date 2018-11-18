@@ -193,12 +193,12 @@ class DBHelper {
     if (!fav) {
       el.classList.remove('favorite_yes');
       el.classList.add('favorite_no');
-      el.setAttribute('aria-label', `Mark as a favorite`)
+      el.setAttribute('arial-label', `Mark as a favorite`)
 
     } else {
       el.classList.remove('favorite_no');
       el.classList.add('favorite_yes');
-      el.setAttribute('aria-label', `Remove as a favorite`)
+      el.setAttribute('arial-label', `Remove as a favorite`)
 
     }
   }
