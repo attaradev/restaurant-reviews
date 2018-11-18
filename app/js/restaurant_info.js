@@ -288,37 +288,57 @@ getParameterByName = (name, url) => {
 /**
  * Add review.
  */
-addReview = (event) => {
-  event.preventDefault();
 
-  const restaurantId = restaurant.id;
+// Form validation & submission
+addReview = () => {
+  event.preventDefault();
+  // Getting the data from the modal form
+  const restaurantId = self.restaurant.id;
   let reviewAuthor = document.getElementById('name').value;
   let reviewRating = document.querySelector('#rating option:checked').value;
   let reviewComment = document.getElementById('comment').value;
 
-  const reviewObject = {
+  // Close Modal
+  closeModal();
+
+  // Add data to DOM
+  const frontEndReview = {
     "restaurant_id": parseInt(restaurantId),
     "name": reviewAuthor,
     "rating": parseInt(reviewRating),
     "comments": reviewComment,
     "createdAt": new Date()
+  };
+  // Send review to backend
+  DBHelper.addReview(frontEndReview);
+  addReviewHTML(frontEndReview);
+  document.getElementById('review-form').reset();
+}
 
+addReviewHTML = (review) => {
+  if (document.getElementById('no-review')) {
+    document.getElementById('no-review').remove();
   }
+  const container = document.getElementById('reviews-container');
+  const ul = document.getElementById('reviews-list');
+
+  //insert the new review on top
+  ul.insertBefore(createReviewHTML(review), ul.firstChild);
+  container.appendChild(ul);
 }
 
 /**
  * Handle modal actions.
  */
 const modal = document.getElementById('reviewModal');
-// const modalBtn = document.getElementById('add-review');
 const closeModalBtn = document.getElementById('closeBtn');
 
-// modalBtn.addEventListener('click', openModal);
 closeModalBtn.addEventListener('click', closeModal);
 window.addEventListener('click', close);
 
 function openModal() {
   modal.style.display = 'block';
+  document.getElementById('addReview').addEventListener('click', addReview);
 }
 
 function closeModal() {

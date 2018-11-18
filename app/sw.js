@@ -35,7 +35,6 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  console.log('[SERVICE WORKER] responding to: ', event.request);
   const storageUrl = event.request.url.split(/[?#]/)[0];
   if (event.request.method.toLowerCase() === 'get') {
     event.respondWith(
