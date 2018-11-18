@@ -204,13 +204,10 @@ class DBHelper {
   }
 
   static updateFavouriteStatus(restaurantId, isFavourite) {
-    console.log('changing status to: ', isFavourite);
-
     fetch(`${this.RESTAURANTS_URL}${restaurantId}/?is_favorite=${isFavourite}`, {
         method: 'PUT'
       })
       .then(() => {
-        console.log('changed');
         this.dbPromise()
           .then(db => {
             const tx = db.transaction('restaurants', 'readwrite');
