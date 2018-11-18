@@ -189,11 +189,25 @@ class DBHelper {
       .catch(error => console.log('error:', error));
   }
 
+  static changeFavIconClass(el, fav) {
+    if (!fav) {
+      el.classList.remove('favorite_yes');
+      el.classList.add('favorite_no');
+      el.setAttribute('arial-label', `Mark as a favorite`)
+
+    } else {
+      console.log('toggle yes upd');
+      el.classList.remove('favorite_no');
+      el.classList.add('favorite_yes');
+      el.setAttribute('arial-label', `Remove as a favorite`)
+
+    }
+  }
 
   static updateFavouriteStatus(restaurantId, isFavourite) {
     console.log('changing status to: ', isFavourite);
 
-    fetch(`${this.RESTAURANT_URL}${restaurantId}/?is_favorite=${isFavourite}`, {
+    fetch(`${this.RESTAURANTS_URL}${restaurantId}/?is_favorite=${isFavourite}`, {
         method: 'PUT'
       })
       .then(() => {
@@ -273,18 +287,4 @@ class DBHelper {
       });
   }
 
-  static changeFavIconClass(el, fav) {
-    if (!fav) {
-      el.classList.remove('favorite_yes');
-      el.classList.add('favorite_no');
-      el.setAttribute('arial-label', `Mark as a favorite`)
-
-    } else {
-      console.log('toggle yes upd');
-      el.classList.remove('favorite_no');
-      el.classList.add('favorite_yes');
-      el.setAttribute('arial-label', `Remove as a favorite`)
-
-    }
-  }
 }

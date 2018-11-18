@@ -195,7 +195,7 @@ createRestaurantHTML = (restaurant) => {
   const favIcon = document.createElement('button');
   favIcon.innerHTML = "";
   favIcon.classList.add('card-actions-button');
-  favIcon.id = `favorite-icon-${restaurant.id}`;
+  favIcon.id = `favorite-icon-${restaurant['id']}`;
   favIcon.onclick = function () {
     const isFavNow = !restaurant.is_favorite;
     DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
