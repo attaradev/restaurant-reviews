@@ -121,9 +121,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const isFavNow = !restaurant.is_favorite;
     DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
     restaurant.is_favorite = !restaurant.is_favorite;
-    DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
+    DBHelper.changeFavIconClass(favIcon, restaurant.is_favorite);
   };
-  DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
+  DBHelper.changeFavIconClass(favIcon, restaurant.is_favorite);
   document.getElementById('restaurant-info')
     .insertBefore(favIcon, document.getElementById('restaurant-address'));
 

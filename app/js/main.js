@@ -200,9 +200,9 @@ createRestaurantHTML = (restaurant) => {
     const isFavNow = !restaurant.is_favorite;
     DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
     restaurant.is_favorite = !restaurant.is_favorite;
-    DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
+    DBHelper.changeFavIconClass(favIcon, restaurant.is_favorite);
   };
-  DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
+  DBHelper.changeFavIconClass(favIcon, restaurant.is_favorite);
   divCardPrimary.append(favIcon);
 
   const neighborhood = document.createElement('h3');
