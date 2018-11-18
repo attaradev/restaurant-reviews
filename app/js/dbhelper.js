@@ -196,7 +196,6 @@ class DBHelper {
       el.setAttribute('arial-label', `Mark as a favorite`)
 
     } else {
-      console.log('toggle yes upd');
       el.classList.remove('favorite_no');
       el.classList.add('favorite_yes');
       el.setAttribute('arial-label', `Remove as a favorite`)
