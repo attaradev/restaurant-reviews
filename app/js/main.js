@@ -34,7 +34,7 @@ fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods()
     .then(neighborhoods => {
       self.neighborhoods = neighborhoods;
-      fillCuisinesHTML(neighborhoods);
+      fillNeighborhoodsHTML();
     });
 }
 
@@ -45,7 +45,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
-    option.innerHTMLt = neighborhood;
+    option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
   });
@@ -58,7 +58,7 @@ fetchCuisines = () => {
   DBHelper.fetchCuisines()
     .then(cuisines => {
       self.cuisines = cuisines;
-      fillCuisinesHTML(cuisines);
+      fillCuisinesHTML();
     });
 }
 
@@ -113,7 +113,7 @@ updateRestaurants = () => {
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
     .then(restaurants => {
       resetRestaurants(restaurants);
-      fillRestaurantsHTML(restaurants);
+      fillRestaurantsHTML();
     })
 }
 
@@ -236,6 +236,21 @@ createRestaurantHTML = (restaurant) => {
   return li
 }
 
+changeFavIconClass = (el, fav) => {
+  if (!fav) {
+    el.classList.remove('favorite_yes');
+    el.classList.add('favorite_no');
+    el.setAttribute('arial-label', `Mark as a favorite`)
+
+  } else {
+    console.log('toggle yes upd');
+    el.classList.remove('favorite_no');
+    el.classList.add('favorite_yes');
+    el.setAttribute('arial-label', `Remove as a favorite`)
+
+  }
+}
+
 /**
  * Add markers for current restaurants to the map.
  */
@@ -250,19 +265,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     }
     self.markers.push(marker);
   });
-}
-
-changeFavIconClass = (el, fav) => {
-  if (!fav) {
-    el.classList.remove('favorite_yes');
-    el.classList.add('favorite_no');
-    el.setAttribute('arial-label', `Mark ${restaurant.name} as a favorite restaurant`)
-
-  } else {
-    console.log('toggle yes upd');
-    el.classList.remove('favorite_no');
-    el.classList.add('favorite_yes');
-    el.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`)
-
-  }
 }

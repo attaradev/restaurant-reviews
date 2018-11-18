@@ -12,7 +12,7 @@ class DBHelper {
     return `http://localhost:${port}/`;
   }
 
-  static get RESTAURANT_URL() {
+  static get RESTAURANTS_URL() {
     return `${this.DATABASE_URL}restaurants/`;
   }
 
@@ -59,7 +59,8 @@ class DBHelper {
             const restaurantStore = tx.objectStore('restaurants');
             restaurants.forEach(restaurant => restaurantStore.put(restaurant));
 
-            return tx.complete.then(() => Promise.resolve(restaurants));
+            return tx.complete
+              .then(() => Promise.resolve(restaurants));
           });
       });
   }
