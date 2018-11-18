@@ -1,50 +1,68 @@
-importScripts('./js/idb');
+const PRECACHE = 'precache-v1';
+const DYNAMIC_CACHE = 'dynamic-cache';
 
-const DB_NAME = 'RestoDB';
-const CACHE_NAME = 'RestoCache';
-const RESOURCES_TO_CACHE = [
+const PRECACHE_URLS = [
   '/',
-  '/css/style.css',
-  '/js/idb.js',
-  '/js/main.js',
-  '/js/dbhelper.js',
+  'css/styles.css',
+  'js/idb.js',
+  'js/dbhelper.js',
+  'js/main.js',
+  'js/restaurant_info.js'
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-    .then((cache) => {
-      return cache.addAll(RESOURCES_TO_CACHE);
-    })
+    caches.open(PRECACHE)
+    .then(cache => cache.addAll(PRECACHE_URLS))
+    .then(self.skipWaiting())
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  const requestURL = new URL(event.request.url);
-
-  event.respondWith(
-    caches.open(CACHE_NAME)
-    .then((cache) => {
-      return cache.match(event.request)
-        .then((response) => {
-          let fetchPromise = fetch(event.request)
-            .then((networkResponse) => {
-              cache.put(event.request, networkResponse.clone());
-              return networkResponse;
-            })
-          return response || fetchPromise;
-        })
+self.addEventListener('activate', event => {
+  console.log('activated sw');
+  const currentCaches = [PRECACHE, DYNAMIC_CACHE];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
     })
+    .then(cachesToDelete => {
+      return Promise.all(cachesToDelete.map(cacheToDelete => {
+        return caches.delete(cacheToDelete);
+      }));
+    })
+    .then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('sync', (event) => {
-  if (event.id == 'add-review') {
-    event.waitUntil(
-      caches.open('mygame-dynamic')
-      .then((cache) => {
-        return cache.add('/leaderboard.json');
+self.addEventListener('fetch', event => {
+  const storageUrl = event.request.url.split(/[?#]/)[0];
+
+  if (storageUrl.startsWith(self.location.origin)) {
+    event.respondWith(
+      caches.match(storageUrl).then(cachedResponse => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        return caches.open(DYNAMIC_CACHE).then(cache => {
+          return fetch(event.request).then(response => {
+            return cache.put(storageUrl, response.clone()).then(() => {
+              return response;
+            });
+          });
+        });
       })
     );
   }
 });
+
+// self.addEventListener('sync', (event) => {
+//   if (event.id == 'add-review') {
+//     event.waitUntil(
+//       caches.open('mygame-dynamic')
+//       .then((cache) => {
+//         return cache.add('/leaderboard.json');
+//       })
+//     );
+//   }
+// })

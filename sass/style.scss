@@ -415,6 +415,16 @@ video {
   }
 }
 
+/*----------------------------------------------------------------------------*/
+
+.favorite_yes {
+  background: url("/icons/favorite.svg") no-repeat;
+}
+
+.favorite_no {
+  background: url("/icons/not-favorite.svg") no-repeat;
+}
+
 /* -------------------------------------------------------------------------- */
 
 .footer {

@@ -21,7 +21,7 @@ if ('serviceWorker' in navigator) {
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', event => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
@@ -31,14 +31,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
-      console.error(error);
-    } else {
+  DBHelper.fetchNeighborhoods()
+    .then(neighborhoods => {
       self.neighborhoods = neighborhoods;
-      fillNeighborhoodsHTML();
-    }
-  });
+      fillCuisinesHTML(neighborhoods);
+    });
 }
 
 /**
@@ -48,7 +45,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
-    option.innerHTML = neighborhood;
+    option.innerHTMLt = neighborhood;
     option.value = neighborhood;
     select.append(option);
   });
@@ -58,14 +55,11 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
+  DBHelper.fetchCuisines()
+    .then(cuisines => {
       self.cuisines = cuisines;
-      fillCuisinesHTML();
-    }
-  });
+      fillCuisinesHTML(cuisines);
+    });
 }
 
 /**
@@ -116,14 +110,11 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
+    .then(restaurants => {
       resetRestaurants(restaurants);
-      fillRestaurantsHTML();
-    }
-  })
+      fillRestaurantsHTML(restaurants);
+    })
 }
 
 /**
@@ -202,19 +193,16 @@ createRestaurantHTML = (restaurant) => {
 
   // Create favorite icon
   const favIcon = document.createElement('button');
-  const isFavorite = restaurant['is_favorite'];
-  favIcon.className = 'card-actions-button';
-  favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
-  !isFavorite
-    ?
-    favIcon.setAttribute('arial-label', `Set ${restaurant.name} as a favorite restaurant`) :
-    favIcon.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`);
+  favIcon.innerHTML = "";
+  favIcon.classList.add('card-actions-button');
   favIcon.id = `favorite-icon-${restaurant.id}`;
-  favIcon.onclick = event => {
+  favIcon.onclick = function () {
     const isFavNow = !restaurant.is_favorite;
     DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
     restaurant.is_favorite = !restaurant.is_favorite;
+    changeFavIconClass(favIcon, restaurant.is_favorite);
   };
+  changeFavIconClass(favIcon, restaurant.is_favorite);
   divCardPrimary.append(favIcon);
 
   const neighborhood = document.createElement('h3');
@@ -248,16 +236,6 @@ createRestaurantHTML = (restaurant) => {
   return li
 }
 
-const handleFavoriteClick = (id, state) => {
-  // Update properties of the restaurant data object
-  const favorite = document.getElementById(`favorite-icon-${id}`);
-  const restaurant = self.restaurants.filter(r => r.id === id)[0];
-  if (!restaurant) return;
-  restaurant["is_favorite"] = state;
-  favorite.onclick = event => handleFavoriteClick(restaurant.id, !restaurant["is_favorite"]);
-  DBHelper.handleFavoriteClick(id, state);
-};
-
 /**
  * Add markers for current restaurants to the map.
  */
@@ -272,5 +250,19 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     }
     self.markers.push(marker);
   });
+}
 
+changeFavIconClass = (el, fav) => {
+  if (!fav) {
+    el.classList.remove('favorite_yes');
+    el.classList.add('favorite_no');
+    el.setAttribute('arial-label', `Mark ${restaurant.name} as a favorite restaurant`)
+
+  } else {
+    console.log('toggle yes upd');
+    el.classList.remove('favorite_no');
+    el.classList.add('favorite_yes');
+    el.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`)
+
+  }
 }

@@ -7,32 +7,32 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get RESTAURANTS_URL() {
-    return `${this.DATABASE_URL}/restaurants/`;
+  static get DATABASE_URL() {
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/`;
   }
 
-  static get DATABASE_URL() {
-    const PORT = 1337
-    return `http://localhost:${PORT}`
+  static get RESTAURANT_URL() {
+    return `${this.DATABASE_URL}restaurants/`;
   }
+
 
   static dbPromise() {
-    return idb.open('restaurantStore', 1, upgradeDB => {
-      upgradeDb.createObjectStore('restaurants', {
-        keyPath: 'id'
-      });
-
-      const reviewsStore = upgradeDb.createObjectStore('reviews', {
-        keyPath: 'id'
-      });
-      reviewsStore.createIndex('restaurant', 'restaurant_id');
+    return idb.open('db', 2, function (upgradeDb) {
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore('restaurants', {
+            keyPath: 'id'
+          });
+        case 1:
+          const reviewsStore = upgradeDb.createObjectStore('reviews', {
+            keyPath: 'id'
+          });
+          reviewsStore.createIndex('restaurant', 'restaurant_id');
+      }
     });
   }
 
-
-  /**
-   * Fetch all restaurants.
-   */
   static fetchRestaurants() {
     return this.dbPromise()
       .then(db => {
@@ -43,13 +43,14 @@ class DBHelper {
       .then(restaurants => {
         if (restaurants.length !== 0) {
           return Promise.resolve(restaurants);
-        }
-        return this.fetchAndCacheRestaurants();
+        } else {
+          return this.fetchAndCacheRestaurants();
+        };
       })
   }
 
   static fetchAndCacheRestaurants() {
-    return fetch(DBHelper.DATABASE_URL + 'restaurants')
+    return fetch(DBHelper.RESTAURANTS_URL)
       .then(response => response.json())
       .then(restaurants => {
         return this.dbPromise()
@@ -63,6 +64,9 @@ class DBHelper {
       });
   }
 
+  /**
+   * Fetch a restaurant by its ID.
+   */
   static fetchRestaurantById(id) {
     return DBHelper.fetchRestaurants()
       .then(restaurants => restaurants.find(r => r.id === id));
@@ -104,7 +108,7 @@ class DBHelper {
   /**
    * Fetch all neighborhoods with proper error handling.
    */
-  static fetchNeighborhoods() {
+  static fetchNeighborhoods(callback) {
     // Fetch all restaurants
     return DBHelper.fetchRestaurants()
       .then(restaurants => {
@@ -119,7 +123,7 @@ class DBHelper {
   /**
    * Fetch all cuisines with proper error handling.
    */
-  static fetchCuisines(callback) {
+  static fetchCuisines() {
     // Fetch all restaurants
     return DBHelper.fetchRestaurants()
       .then(restaurants => {
@@ -142,46 +146,53 @@ class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     if (restaurant.photograph === undefined) {
-      return (`/img/${restaurant.id}.jpg`);
-    } else {
-      return (`/img/${restaurant.photograph}.jpg`);
+      return (`/img/${restaurant['id']}.jpg`);
     }
+    return (`/img/${restaurant.photograph}.jpg`);
   }
 
   /**
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
-    // https://leafletjs.com/reference-1.3.0.html#marker  
+    // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng], {
       title: restaurant.name,
       alt: restaurant.name,
-      url: this.urlForRestaurant(restaurant)
+      url: DBHelper.urlForRestaurant(restaurant)
     })
-    marker.addTo(newMap);
+    marker.addTo(map);
     return marker;
   }
 
-  /**
-   * Reviews
-   */
-  static fetchReviewsByRestaurantId(id) {
-    return fetch(`${this.DATABASE_URL}/reviews/?restaurant_id=${id}`)
-      .then(response => response.json())
-      .then(reviews => {
-        this.dbPromise()
-          .then(db => {
-            if (!db) return;
-
-            let tx = db;
-          })
+  static addReview(review) {
+    const optionsObject = {
+      method: 'POST',
+      body: JSON.stringify(review),
+      headers: new Headers({
+        'Content-Type': 'application/json'
       })
+    };
+    fetch(`http://localhost:1337/reviews`, optionsObject)
+      .then((response) => {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+          return response.json();
+        } else {
+          return 'API call successfull'
+        }
+      })
+      .then((data) => {
+        console.log(`Fetch successful!`)
+      })
+      .catch(error => console.log('error:', error));
   }
+
 
   static updateFavouriteStatus(restaurantId, isFavourite) {
     console.log('changing status to: ', isFavourite);
 
-    fetch(`http://localhost:1337/restaurants/${restaurantId}/?is_favorite=${isFavourite}`, {
+    fetch(`${this.RESTAURANT_URL}${restaurantId}/?is_favorite=${isFavourite}`, {
         method: 'PUT'
       })
       .then(() => {
@@ -205,14 +216,14 @@ class DBHelper {
    * Fetch all reviews.
    */
 
-  static storeIndexedDB(table, objects) {
-    this.dbPromise.then(function (db) {
+  static storeInIndexedDB(table, objects) {
+    this.dbPromise.then(db => {
       if (!db) return;
 
       let tx = db.transaction(table, 'readwrite');
       const store = tx.objectStore(table);
       if (Array.isArray(objects)) {
-        objects.forEach(function (object) {
+        objects.forEach(object => {
           store.put(object);
         });
       } else {
@@ -223,7 +234,7 @@ class DBHelper {
 
   static getStoredObjectById(table, idx, id) {
     return this.dbPromise()
-      .then(function (db) {
+      .then(db => {
         if (!db) return;
 
         const store = db.transaction(table).objectStore(table);
@@ -243,20 +254,19 @@ class DBHelper {
             let tx = db.transaction('reviews', 'readwrite');
             const store = tx.objectStore('reviews');
             if (Array.isArray(reviews)) {
-              reviews.forEach(function (review) {
+              reviews.forEach(review => {
                 store.put(review);
               });
             } else {
               store.put(reviews);
             }
           });
-        console.log('revs are: ', reviews);
+
         return Promise.resolve(reviews);
       })
       .catch(error => {
         return DBHelper.getStoredObjectById('reviews', 'restaurant', id)
           .then((storedReviews) => {
-            console.log('looking for offline stored reviews');
             return Promise.resolve(storedReviews);
           })
       });
