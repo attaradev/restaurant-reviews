@@ -1,7 +1,7 @@
-const PRECACHE = 'precache-v1';
+const PRE_CACHE = 'precache-v1';
 const DYNAMIC_CACHE = 'dynamic-cache';
 
-const PRECACHE_URLS = [
+const PRE_CACHE_URLS = [
   '/',
   'css/styles.css',
   'js/idb.js',
@@ -12,15 +12,15 @@ const PRECACHE_URLS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(PRECACHE)
-    .then(cache => cache.addAll(PRECACHE_URLS))
+    caches.open(PRE_CACHE)
+    .then(cache => cache.addAll(PRE_CACHE_URLS))
     .then(self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', event => {
   console.log('activated sw');
-  const currentCaches = [PRECACHE, DYNAMIC_CACHE];
+  const currentCaches = [PRE_CACHE, DYNAMIC_CACHE];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
@@ -39,18 +39,22 @@ self.addEventListener('fetch', event => {
 
   if (storageUrl.startsWith(self.location.origin)) {
     event.respondWith(
-      caches.match(storageUrl).then(cachedResponse => {
+      caches.match(storageUrl)
+      .then(cachedResponse => {
         if (cachedResponse) {
           return cachedResponse;
         }
 
-        return caches.open(DYNAMIC_CACHE).then(cache => {
-          return fetch(event.request).then(response => {
-            return cache.put(storageUrl, response.clone()).then(() => {
-              return response;
-            });
+        return caches.open(DYNAMIC_CACHE)
+          .then(cache => {
+            return fetch(event.request)
+              .then(response => {
+                return cache.put(storageUrl, response.clone())
+                  .then(() => {
+                    return response;
+                  });
+              });
           });
-        });
       })
     );
   }

@@ -285,7 +285,7 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
-// Handle Modal
+// HANDLE MODAL
 const modal = document.getElementById('reviewModal');
 // const modalBtn = document.getElementById('add-review');
 const closeModalBtn = document.getElementById('closeBtn');
