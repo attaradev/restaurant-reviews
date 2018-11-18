@@ -1,9 +1,8 @@
-const PRE_CACHE = 'precache-v1';
-const DYNAMIC_CACHE = 'dynamic-cache';
-
-const PRE_CACHE_URLS = [
-  '/',
-  'css/styles.css',
+const cacheName = 'resto-cache-v3';
+const resources = [
+  'index.html',
+  'restaurant.html',
+  'css/style.css',
   'js/idb.js',
   'js/dbhelper.js',
   'js/main.js',
@@ -12,61 +11,46 @@ const PRE_CACHE_URLS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(PRE_CACHE)
-    .then(cache => cache.addAll(PRE_CACHE_URLS))
-    .then(self.skipWaiting())
-  );
-});
+    caches.open(cacheName)
+    .then(cache => {
+      cache.addAll(resources);
+    })
+    .catch(err => console.log(err))
+  )
+})
 
 self.addEventListener('activate', event => {
-  console.log('activated sw');
-  const currentCaches = [PRE_CACHE, DYNAMIC_CACHE];
+  console.log('[SERVICE WORKER] Activating service worker');
+  const currentCaches = [cacheName];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
-    })
-    .then(cachesToDelete => {
+    }).then(cachesToDelete => {
       return Promise.all(cachesToDelete.map(cacheToDelete => {
         return caches.delete(cacheToDelete);
       }));
-    })
-    .then(() => self.clients.claim())
+    }).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', event => {
   const storageUrl = event.request.url.split(/[?#]/)[0];
-
-  if (storageUrl.startsWith(self.location.origin)) {
+  if (event.request.method.toLowerCase() === 'get') {
     event.respondWith(
-      caches.match(storageUrl)
-      .then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        return caches.open(DYNAMIC_CACHE)
-          .then(cache => {
-            return fetch(event.request)
-              .then(response => {
-                return cache.put(storageUrl, response.clone())
-                  .then(() => {
-                    return response;
-                  });
-              });
-          });
+      caches.open(cacheName)
+      .then(cache => {
+        return cache.match(event.request)
+          .then(response => {
+            const fetchPromise = fetch(event.request)
+              .then(networkResponse => {
+                cache.put(event.request, networkResponse.clone());
+                return networkResponse;
+              })
+            return response || fetchPromise;
+          })
       })
+      .catch(err => console.log(err))
     );
   }
-});
 
-// self.addEventListener('sync', (event) => {
-//   if (event.id == 'add-review') {
-//     event.waitUntil(
-//       caches.open('mygame-dynamic')
-//       .then((cache) => {
-//         return cache.add('/leaderboard.json');
-//       })
-//     );
-//   }
-// })
+});
