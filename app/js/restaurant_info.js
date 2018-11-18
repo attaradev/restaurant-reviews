@@ -114,16 +114,16 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   // Create favorite icon
   const favIcon = document.createElement('button');
-  const isFavorite = restaurant['is_favorite'];
-  favIcon.className = 'card-actions-button';
-  favIcon.style.background = isFavorite ? `url("/icons/favorite.svg") no-repeat` : `url("/icons/not-favorite.svg") no-repeat`;
-  !isFavorite
-    ?
-    favIcon.setAttribute('arial-label', `Set ${restaurant.name} as a favorite restaurant`) :
-    favIcon.setAttribute('arial-label', `Remove ${restaurant.name} as a favorite restaurant`);
+  favIcon.innerHTML = "";
+  favIcon.classList.add('card-actions-button');
   favIcon.id = `favorite-icon-${restaurant.id}`;
-  favIcon.tabIndex = '1';
-  favIcon.onclick = event => handleFavoriteClick(restaurant.id, !isFavorite);
+  favIcon.onclick = function () {
+    const isFavNow = !restaurant.is_favorite;
+    DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
+    restaurant.is_favorite = !restaurant.is_favorite;
+    DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
+  };
+  DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
   document.getElementById('restaurant-info')
     .insertBefore(favIcon, document.getElementById('restaurant-address'));
 

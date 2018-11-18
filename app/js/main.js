@@ -200,9 +200,9 @@ createRestaurantHTML = (restaurant) => {
     const isFavNow = !restaurant.is_favorite;
     DBHelper.updateFavouriteStatus(restaurant.id, isFavNow);
     restaurant.is_favorite = !restaurant.is_favorite;
-    changeFavIconClass(favIcon, restaurant.is_favorite);
+    DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
   };
-  changeFavIconClass(favIcon, restaurant.is_favorite);
+  DBHelper.changeFavIconClasschangeFavIconClass(favIcon, restaurant.is_favorite);
   divCardPrimary.append(favIcon);
 
   const neighborhood = document.createElement('h3');
@@ -234,21 +234,6 @@ createRestaurantHTML = (restaurant) => {
   li.append(divCardActions);
 
   return li
-}
-
-changeFavIconClass = (el, fav) => {
-  if (!fav) {
-    el.classList.remove('favorite_yes');
-    el.classList.add('favorite_no');
-    el.setAttribute('arial-label', `Mark as a favorite`)
-
-  } else {
-    console.log('toggle yes upd');
-    el.classList.remove('favorite_no');
-    el.classList.add('favorite_yes');
-    el.setAttribute('arial-label', `Remove as a favorite`)
-
-  }
 }
 
 /**

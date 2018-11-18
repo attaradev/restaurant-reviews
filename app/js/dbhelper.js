@@ -272,4 +272,19 @@ class DBHelper {
           })
       });
   }
+
+  static changeFavIconClass(el, fav) {
+    if (!fav) {
+      el.classList.remove('favorite_yes');
+      el.classList.add('favorite_no');
+      el.setAttribute('arial-label', `Mark as a favorite`)
+
+    } else {
+      console.log('toggle yes upd');
+      el.classList.remove('favorite_no');
+      el.classList.add('favorite_yes');
+      el.setAttribute('arial-label', `Remove as a favorite`)
+
+    }
+  }
 }
