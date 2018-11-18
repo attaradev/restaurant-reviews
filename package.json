@@ -9,18 +9,12 @@
   "author": "Mike Perry Yeboah Attara",
   "license": "ISC",
   "devDependencies": {
-    "autoprefixer": "^9.3.1",
     "browser-sync": "^2.26.3",
-    "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-minify": "^3.1.0",
+    "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
-    "pump": "^3.0.0",
-    "uglify-es": "^3.3.9"
+    "gulp-terser": "^1.1.5"
   },
   "dependencies": {}
 }

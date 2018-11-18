@@ -6,7 +6,10 @@ const resources = [
   'js/idb.js',
   'js/dbhelper.js',
   'js/main.js',
-  'js/restaurant_info.js'
+  'js/restaurant_info.js',
+  'https://fonts.googleapis.com/css?family=Roboto:300,400,500',
+  'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+  'https://use.fontawesome.com/releases/v5.3.1/css/all.css'
 ];
 
 self.addEventListener('install', event => {
