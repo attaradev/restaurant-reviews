@@ -222,13 +222,13 @@ createReviewHTML = (review) => {
   divCardPrimary.className = 'card-primary';
   // Restaurant name.
   const name = document.createElement('h2');
-  name.className = 'card-title';
-  name.innerHTML = review.name;
+  name.className = 'card-title'
+    .innerHTML = review.name;
   divCardPrimary.appendChild(name);
   // Review date.
   const date = document.createElement('h3');
-  date.className = 'card-subtitle';
-  date.textContent = new Date(review.createdAt).toLocaleString();
+  date.className = 'card-subtitle'
+    .textContent = new Date(review.createdAt).toLocaleString();
   divCardPrimary.appendChild(date);
   li.appendChild(divCardPrimary);
 
@@ -236,8 +236,8 @@ createReviewHTML = (review) => {
   const divCardActions = document.createElement('div');
   divCardActions.className = 'review-card-rating';
   const rating = document.createElement('p');
-  rating.className = 'review-card-rating-content';
-  rating.textContent = `Rating: ${review.rating}`;
+  rating.className = 'review-card-rating-content'
+    .textContent = `Rating: ${review.rating}`;
   divCardActions.append(rating);
   li.appendChild(divCardActions);
 
@@ -246,8 +246,8 @@ createReviewHTML = (review) => {
   divCardSecondary.className = 'card-secondary';
   // Review text.
   const comments = document.createElement('p');
-  comments.className = 'card-secondary-content';
-  comments.textContent = review.comments;
+  comments.className = 'card-secondary-content'
+    .textContent = review.comments;
   divCardSecondary.appendChild(comments);
   li.appendChild(divCardSecondary);
 
@@ -260,12 +260,13 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
-  li.className = 'breadcrumb';
-  li.innerHTML = restaurant.name;
+  li.className = 'breadcrumb'
+    .innerHTML = restaurant.name;
   // a11y - indicate current page
   // https://www.w3.org/TR/wai-aria-practices/examples/breadcrumb/index.html -->
   li.setAttribute('aria-current', 'page');
-  breadcrumb.appendChild(li);
+  breadcrumb.setAttribute('aria-label', 'Breadcrumb')
+    .appendChild(li);
 }
 
 /**
