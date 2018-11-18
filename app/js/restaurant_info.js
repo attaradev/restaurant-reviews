@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Initialize leaflet map
  */
-initMap = () => {
+const initMap = () => {
   fetchRestaurantFromURL()
     .then((restaurant) => {
       self.newMap = L.map('map', {
@@ -36,7 +36,7 @@ initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = () => {
+const fetchRestaurantFromURL = () => {
   if (self.restaurant) { // restaurant already fetched!
     return Promise.resolve(self.restaurant);
   }
@@ -59,7 +59,7 @@ fetchRestaurantFromURL = () => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-fillRestaurantHTML = (restaurant = self.restaurant) => {
+const fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
@@ -84,7 +84,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-fetchRestaurantFromURL = () => {
+const fetchRestaurantFromURL = () => {
   if (self.restaurant) { // restaurant already fetched!
     return Promise.resolve(self.restaurant);
   }
@@ -107,7 +107,7 @@ fetchRestaurantFromURL = () => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-fillRestaurantHTML = (restaurant = self.restaurant) => {
+const fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.textContent = restaurant.name;
   name.tabIndex = '0';
@@ -153,7 +153,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
@@ -175,7 +175,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const ul = document.getElementById('reviews-list');
   const title = document.createElement('h3');
@@ -213,7 +213,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
  */
 
-createReviewHTML = (review) => {
+const createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.className = 'review-card';
 
@@ -257,7 +257,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant = self.restaurant) => {
+const fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.className = 'breadcrumb';
@@ -272,7 +272,7 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
 /**
  * Get a parameter by name from page URL.
  */
-getParameterByName = (name, url) => {
+const getParameterByName = (name, url) => {
   if (!url)
     url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -285,6 +285,25 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
 
+
+const addReview = (event) => {
+  event.preventDefault();
+
+  const restaurantId = restaurant.id;
+  let reviewAuthor = document.getElementById('name').value;
+  let reviewRating = document.querySelector('#rating option:checked').value;
+  let reviewComment = document.getElementById('comment').value;
+
+  const reviewObject = {
+    "restaurant_id": parseInt(restaurantId),
+    "name": reviewAuthor,
+    "rating": parseInt(reviewRating),
+    "comments": reviewComment,
+    "createdAt": new Date()
+
+  }
+}
+
 // HANDLE MODAL
 const modal = document.getElementById('reviewModal');
 // const modalBtn = document.getElementById('add-review');
@@ -295,15 +314,15 @@ const closeModalBtn = document.getElementById('closeBtn');
 closeModalBtn.addEventListener('click', closeModal);
 window.addEventListener('click', close);
 
-function openReviewModal() {
+const openReviewModal = () => {
   modal.style.display = 'block';
 }
 
-function closeModal() {
+const closeModal = () => {
   modal.style.display = 'none';
 }
 
-function close(ev) {
+const close = (ev) => {
   if (ev.target == modal) {
     closeModal();
   }
