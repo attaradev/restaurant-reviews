@@ -4,7 +4,7 @@
   "description": "Final stage of the restaurant reviews project for the Mobile Web Specialist Nanodegree on Udacity",
   "main": "index.js",
   "scripts": {
-    "build": "gulp clean && gulp build"
+    "start": "gulp"
   },
   "author": "Mike Perry Yeboah Attara",
   "license": "ISC",
