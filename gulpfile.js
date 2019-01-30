@@ -70,5 +70,5 @@ gulp.task("build", () =>
       "app/**/icons/*",
       "app/**/img/*"
     ])
-    .pipe(gulp.dest("./build/"))
+    .pipe(gulp.dest("./public/"))
 );
