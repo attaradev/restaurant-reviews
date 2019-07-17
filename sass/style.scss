@@ -243,7 +243,8 @@ video {
     }
   }
 
-  &-button {
+  &-button, 
+  &-button:active {
     display: block;
     width: 25px;
     height: 25px;
@@ -252,6 +253,7 @@ video {
     margin: 10px 0;
     padding: 0;
     cursor: pointer;
+    outline: none;
   }
 }
 
